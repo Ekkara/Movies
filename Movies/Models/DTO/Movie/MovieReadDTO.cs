@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Numerics;
 
-namespace Movies.Models.Domain
+namespace Movies.Models.DTO.Movie
 {
-    public class Movie
+    public class MovieReadDTO
     {
         public int Id { get; set; }
 
@@ -17,8 +16,7 @@ namespace Movies.Models.Domain
         public string Trailer { get; set; }
 
         //relationships
-        public int FranchiseID { get; set; }
-        public Franchise Franchise { get; set; }
-        public ICollection<Character> Characters { get; set; }
+        public int Franchise { get; set; }
+        public ICollection<int> Characters { get; set; }
     }
 }

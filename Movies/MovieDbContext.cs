@@ -18,11 +18,11 @@ namespace Movies
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Seed data
-            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 1, Title = "Parry Hotter", Genre = "Fantasy", ReleaseYear = 2001, Director = "ChrisCol", Picture = "hueHUEUHE", Trailer = "Ex-Smelly-Armpits", franchiseID = 1});
-            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 2, Title = "Sword of the Wings", Genre = "Fantasy", ReleaseYear = 2002, Director = "Mikael Niazi", Picture = "presshush", Trailer = "ISENGARD", franchiseID = 2});
-            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 3, Title = "War Stars", Genre = "SciFi", ReleaseYear = 1974, Director = "Xyz", Picture = "Daddy", Trailer = "...", franchiseID = 3 });
-            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 4, Title = "Parry Hotter 2", Genre = "Fantasy", ReleaseYear = 2019, Director = "ChrisCol", Picture = "HUEHeEUHE", Trailer = "Ex-Smelly-Armpits" , franchiseID = 1 });
-            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 5, Title = "Honungens Återkomst", Genre = "Fantasy", ReleaseYear = 2069, Director = "Mikael Niazi", Picture = "presshush", Trailer = "ISENGARD" , franchiseID = 2 });
+            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 1, Title = "Parry Hotter", Genre = "Fantasy", ReleaseYear = 2001, Director = "ChrisCol", Picture = "hueHUEUHE", Trailer = "Ex-Smelly-Armpits", FranchiseID = 1});
+            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 2, Title = "Sword of the Wings", Genre = "Fantasy", ReleaseYear = 2002, Director = "Mikael Niazi", Picture = "presshush", Trailer = "ISENGARD", FranchiseID = 2});
+            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 3, Title = "War Stars", Genre = "SciFi", ReleaseYear = 1974, Director = "Xyz", Picture = "Daddy", Trailer = "...", FranchiseID = 3 });
+            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 4, Title = "Parry Hotter 2", Genre = "Fantasy", ReleaseYear = 2019, Director = "ChrisCol", Picture = "HUEHeEUHE", Trailer = "Ex-Smelly-Armpits" , FranchiseID = 1 });
+            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 5, Title = "Honungens Återkomst", Genre = "Fantasy", ReleaseYear = 2069, Director = "Mikael Niazi", Picture = "presshush", Trailer = "ISENGARD" , FranchiseID = 2 });
 
             modelBuilder.Entity<Character>().HasData(new Character { Id = 1, Name = "Fred", Gender = "Monki", Alias = "George", Picture = ":)", MovieId = 1 });
             modelBuilder.Entity<Character>().HasData(new Character { Id = 2, Name = "Sean Stark", Gender = "Female", Alias = "Shtark", Picture = "x(", MovieId = 2 });
