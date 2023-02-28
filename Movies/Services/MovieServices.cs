@@ -40,7 +40,7 @@ namespace Movies.Services
             // Log and throw pattern
             if (movie == null)
             {
-                _logger.LogError("Professor not found with Id: " + id);
+                _logger.LogError("Moovii not found with Id: " + id);
                 throw new Exception();
             }
             // We set our entities to have nullable relationships

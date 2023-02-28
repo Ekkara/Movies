@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Movies;
 using Movies.Models.Domain;
 using Movies.Models.DTO.Movie;
 using Movies.Services;
@@ -21,12 +15,11 @@ namespace Movies.Controllers
         private readonly IMapper _mapper;
         private readonly IMovieService _movieService;
 
-
-        public MoviesController(IMapper mapper, IMovieService professorService, MovieDbContext context)
+        public MoviesController(IMapper mapper, IMovieService movieService, MovieDbContext context)
         {
             _context = context;
             _mapper = mapper;
-            _movieService = professorService;
+            _movieService = movieService;
         }
 
         // GET: api/Movies
