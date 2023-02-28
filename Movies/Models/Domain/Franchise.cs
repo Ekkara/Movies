@@ -2,9 +2,14 @@
 
 namespace Movies.Models.Domain
 {
-    public class Franchise
+    public partial class Franchise
     {
         public int Id { get; set; }
+
+        public Franchise()
+        {
+            Franchises = new HashSet<Franchise>();
+        }
 
         // Fields
         [Required]
@@ -12,6 +17,6 @@ namespace Movies.Models.Domain
         public string Description { get; set; }
       
         //relationships
-        public ICollection<Franchise> Franchises { get; set; }
+        public virtual ICollection<Franchise> Franchises { get; set; }
     }
 }

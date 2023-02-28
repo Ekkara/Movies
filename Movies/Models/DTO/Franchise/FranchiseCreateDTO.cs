@@ -8,8 +8,5 @@ namespace Movies.Models.DTO.Franchise
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-
-        //relationships
-        public ICollection<int> Franchises { get; set; }
     }
 }
