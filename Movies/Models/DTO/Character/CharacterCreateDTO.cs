@@ -6,14 +6,10 @@ namespace Movies.Models.DTO.Character
     {
         // Fields
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         //TODO: alias might not be applicable
-        public string Alias { get; set; }
-        public string Gender { get; set; }
-        public string Picture { get; set; }
-
-        //relationships
-        public int MovieId { get; set; }
-        public ICollection<int> Movies { get; set; }
+        public string Alias { get; set; } = null!;
+        public string Gender { get; set; } = null!;
+        public string Picture { get; set; } = null!;
     }
 }

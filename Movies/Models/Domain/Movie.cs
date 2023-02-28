@@ -3,10 +3,13 @@ using System.Numerics;
 
 namespace Movies.Models.Domain
 {
-    public class Movie
+    public partial class Movie
     {
         public int Id { get; set; }
-
+        public Movie()
+        {
+            Characters = new HashSet<Character>();
+        }
         // Fields
         [Required]
         public string Title { get; set; }
@@ -17,8 +20,8 @@ namespace Movies.Models.Domain
         public string Trailer { get; set; }
 
         //relationships
-        public int FranchiseID { get; set; }
-        public Franchise Franchise { get; set; }
-        public ICollection<Character> Characters { get; set; }
+        public int? FranchiseID { get; set; }
+        public virtual Franchise Franchise { get; set; } = null!;
+        public virtual ICollection<Character> Characters { get; set; }
     }
 }

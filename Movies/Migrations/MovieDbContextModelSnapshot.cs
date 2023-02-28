@@ -202,6 +202,9 @@ namespace Movies.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("FranchiseID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Genre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -221,12 +224,9 @@ namespace Movies.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("franchiseID")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("franchiseID");
+                    b.HasIndex("FranchiseID");
 
                     b.ToTable("Movies");
 
@@ -235,56 +235,85 @@ namespace Movies.Migrations
                         {
                             Id = 1,
                             Director = "ChrisCol",
+                            FranchiseID = 1,
                             Genre = "Fantasy",
-                            Picture = "hueHUEUHE",
+                            Picture = "Pic",
                             ReleaseYear = 2001,
-                            Title = "Parry Hotter",
-                            Trailer = "Ex-Smelly-Armpits",
-                            franchiseID = 1
+                            Title = "Harry Potter",
+                            Trailer = "Ex-Smelly-Armpits"
                         },
                         new
                         {
                             Id = 2,
                             Director = "Mikael Niazi",
+                            FranchiseID = 2,
                             Genre = "Fantasy",
-                            Picture = "presshush",
+                            Picture = "Pic",
                             ReleaseYear = 2002,
-                            Title = "Sword of the Wings",
-                            Trailer = "ISENGARD",
-                            franchiseID = 2
+                            Title = "Lord of the Rings",
+                            Trailer = "ISENGARD"
                         },
                         new
                         {
                             Id = 3,
                             Director = "Xyz",
+                            FranchiseID = 3,
                             Genre = "SciFi",
                             Picture = "Daddy",
                             ReleaseYear = 1974,
-                            Title = "War Stars",
-                            Trailer = "...",
-                            franchiseID = 3
+                            Title = "Star Wars",
+                            Trailer = "Pic"
                         },
                         new
                         {
                             Id = 4,
                             Director = "ChrisCol",
+                            FranchiseID = 1,
                             Genre = "Fantasy",
-                            Picture = "HUEHeEUHE",
+                            Picture = "Pic",
                             ReleaseYear = 2019,
-                            Title = "Parry Hotter 2",
-                            Trailer = "Ex-Smelly-Armpits",
-                            franchiseID = 1
+                            Title = "Harry Potter 2",
+                            Trailer = "Ex-Smelly-Armpits"
                         },
                         new
                         {
                             Id = 5,
                             Director = "Mikael Niazi",
+                            FranchiseID = 2,
                             Genre = "Fantasy",
                             Picture = "presshush",
                             ReleaseYear = 2069,
                             Title = "Honungens Återkomst",
-                            Trailer = "ISENGARD",
-                            franchiseID = 2
+                            Trailer = "ISENGARD"
+                        });
+                });
+
+            modelBuilder.Entity("Movies.Models.Domain.Test2", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ASD")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Test2");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            ASD = "ada",
+                            Name = "s"
                         });
                 });
 
@@ -312,13 +341,11 @@ namespace Movies.Migrations
 
             modelBuilder.Entity("Movies.Models.Domain.Movie", b =>
                 {
-                    b.HasOne("Movies.Models.Domain.Franchise", "franchise")
+                    b.HasOne("Movies.Models.Domain.Franchise", "Franchise")
                         .WithMany()
-                        .HasForeignKey("franchiseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("FranchiseID");
 
-                    b.Navigation("franchise");
+                    b.Navigation("Franchise");
                 });
 
             modelBuilder.Entity("Movies.Models.Domain.Franchise", b =>
