@@ -22,6 +22,6 @@ namespace Movies.Models.Domain
         //relationships
         public int? FranchiseID { get; set; }
         public virtual Franchise Franchise { get; set; } = null!;
-        public virtual ICollection<Character> Characters { get; set; }
+        public ICollection<Character> Characters { get; set; }
     }
 }
