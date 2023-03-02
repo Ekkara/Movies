@@ -147,29 +147,29 @@ namespace Movies.Controllers
         [HttpPut("{id}/movies")]
         public async Task<IActionResult> UpdateMoviesInFranchise(int id, List<int> listOfMovies) {
             //check if character exist
-            if (!FranchiseExists(id)) {
-                return NotFound();
-            }
+            //if (!FranchiseExists(id)) {
+            //    return NotFound();
+            //}
 
-            Franchise FranchiseToUpdateMovies = await _context.Franchises
-                .Include(c => c.Movies)
-                .Where(c => c.Id == id)
-                .FirstAsync();
+            //Franchise FranchiseToUpdateMovies = await _context.Franchises
+            //    .Include(c => c.Movies)
+            //    .Where(c => c.Id == id)
+            //    .FirstAsync();
 
-            List<Movie> movies = new();
-            foreach (int movieId in listOfMovies) {
-                Movie character = await _context.Movies.FindAsync(movieId);
-                if (character == null)
-                    return BadRequest("Character doesnt exist!");
-                movies.Add(character);
-            }
-            FranchiseToUpdateMovies.Movies = movies;
+            //List<Movie> movies = new();
+            //foreach (int movieId in listOfMovies) {
+            //    Movie character = await _context.Movies.FindAsync(movieId);
+            //    if (character == null)
+            //        return BadRequest("Character doesnt exist!");
+            //    movies.Add(character);
+            //}
+            //FranchiseToUpdateMovies.Movies = movies;
 
-            try {
-                await _context.SaveChangesAsync();
-            } catch (DbUpdateConcurrencyException) {
-                throw;
-            }
+            //try {
+            //    await _context.SaveChangesAsync();
+            //} catch (DbUpdateConcurrencyException) {
+            //    throw;
+            //}
             return NoContent();
         }
 

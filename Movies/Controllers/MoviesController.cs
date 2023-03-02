@@ -42,9 +42,6 @@ namespace Movies.Controllers
                .Where(c => c.Id == id)
                .FirstAsync();
 
-            foreach (Character character in movieTest.Characters) {
-                Console.WriteLine(character.Name + " exist in " + movieTest.Title);
-            }
             return movie;
         }
 
@@ -109,7 +106,10 @@ namespace Movies.Controllers
             if (movie == null) {
                 return NotFound();
             }
-            return movie.Characters.ToList();
+
+            var characters = await _context.Characters.ToListAsync();
+            characters = characters.Where(c => movie.Characters.Contains(c)).ToList();
+            return characters;
             }
 
         private bool MovieExists(int id) {
@@ -123,19 +123,26 @@ namespace Movies.Controllers
                 return NotFound();
             }
 
-            Movie movieToUpdateCerts = await _context.Movies
-                .Include(c => c.Characters)
-                .Where(c => c.Id == id)
-                .FirstAsync();
+            Movie movie = await _context.Movies.FindAsync(id);
+            var characters = await _context.Characters.ToListAsync();
+            characters = characters.Where(c => listOfCharactersId.Contains(c.Id)).ToList();
 
-            List<Character> characters = new();
-            foreach (int characterId in listOfCharactersId) {
-                Character character = await _context.Characters.FindAsync(characterId);
-                if (character == null)
-                    return BadRequest("Character doesnt exist!");
-                characters.Add(character);
-            }
-            movieToUpdateCerts.Characters = characters;
+            movie.Characters = characters;
+
+
+            //Movie movieToUpdateCerts = await _context.Movies
+            //    .Include(c => c.Characters)
+            //    .Where(c => c.Id == id)
+            //    .FirstAsync();
+
+            //List<Character> characters = new();
+            //foreach (int characterId in listOfCharactersId) {
+            //    Character character = await _context.Characters.FindAsync(characterId);
+            //    if (character == null)
+            //        return BadRequest("Character doesnt exist!");
+            //    characters.Add(character);
+            //}
+            //movieToUpdateCerts.Characters = characters;
             
             try {
                 await _context.SaveChangesAsync();

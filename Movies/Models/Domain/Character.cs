@@ -7,11 +7,6 @@ namespace Movies.Models.Domain
     {
         public int Id { get; set; }
 
-        public Character()
-        {
-            //  Movies = new HashSet<Movie>();
-        }
-
         // Fields
         [Required]
         public string Name { get; set; }
@@ -19,7 +14,5 @@ namespace Movies.Models.Domain
         public string Alias { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
-        //relationships
-        
     }
 }

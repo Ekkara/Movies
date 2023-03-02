@@ -9,8 +9,10 @@ namespace Movies.Profiles
         public MovieProfile() {
             CreateMap<Movie, MovieCreateDTO>()
                 .ReverseMap();
+
             CreateMap<Movie, MovieEditDTO>()
                 .ReverseMap();
+
         }
     }
 }

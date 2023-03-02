@@ -5,10 +5,6 @@ namespace Movies.Models.Domain
     public class Movie
     {
         public int Id { get; set; }
-        public Movie()
-        {
-            Characters = new HashSet<Character>();
-        }
         // Fields
         [Required]
         public string Title { get; set; }
@@ -20,6 +16,6 @@ namespace Movies.Models.Domain
 
         //relationships
         public int? FranchiseID { get; set; }
-        public ICollection<Character> Characters { get; set; }
+        public ICollection<Character> Characters { get; set; } = new List<Character>();
     }
 }
