@@ -128,16 +128,7 @@ namespace Movies.Controllers
                 await _context.SaveChangesAsync();
             } catch (DbUpdateConcurrencyException) {
                 throw;
-            } finally {
-                Movie movieTest = await _context.Movies
-                .Include(c => c.Characters)
-                .Where(c => c.Id == id)
-                .FirstAsync();
-
-                foreach (Character character in movieTest.Characters) {
-                    Console.WriteLine(character.Name + " exist in " + movieTest.Title);
-                }
-            }
+            } 
             return NoContent();
         }
     }

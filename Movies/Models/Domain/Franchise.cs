@@ -8,7 +8,7 @@ namespace Movies.Models.Domain
 
         public Franchise()
         {
-            Franchises = new HashSet<Franchise>();
+            Movies = new HashSet<Movie>();
         }
 
         // Fields
@@ -17,6 +17,6 @@ namespace Movies.Models.Domain
         public string Description { get; set; }
       
         //relationships
-        public virtual ICollection<Franchise> Franchises { get; set; }
+        public virtual ICollection<Movie> Movies { get; set; }
     }
 }

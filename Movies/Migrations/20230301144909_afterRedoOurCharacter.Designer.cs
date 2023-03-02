@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Movies;
 
@@ -11,9 +12,11 @@ using Movies;
 namespace Movies.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    partial class MovieDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230301144909_afterRedoOurCharacter")]
+    partial class afterRedoOurCharacter
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,11 +105,16 @@ namespace Movies.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("FranchiseId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FranchiseId");
 
                     b.ToTable("Franchises");
 
@@ -265,10 +273,17 @@ namespace Movies.Migrations
                         .HasForeignKey("MovieId");
                 });
 
+            modelBuilder.Entity("Movies.Models.Domain.Franchise", b =>
+                {
+                    b.HasOne("Movies.Models.Domain.Franchise", null)
+                        .WithMany("Franchises")
+                        .HasForeignKey("FranchiseId");
+                });
+
             modelBuilder.Entity("Movies.Models.Domain.Movie", b =>
                 {
                     b.HasOne("Movies.Models.Domain.Franchise", "Franchise")
-                        .WithMany("Movies")
+                        .WithMany()
                         .HasForeignKey("FranchiseID");
 
                     b.Navigation("Franchise");
@@ -276,7 +291,7 @@ namespace Movies.Migrations
 
             modelBuilder.Entity("Movies.Models.Domain.Franchise", b =>
                 {
-                    b.Navigation("Movies");
+                    b.Navigation("Franchises");
                 });
 
             modelBuilder.Entity("Movies.Models.Domain.Movie", b =>

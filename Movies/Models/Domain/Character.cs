@@ -8,7 +8,7 @@ namespace Movies.Models.Domain
 
         public Character()
         {
-            Movies = new HashSet<Movie>();
+          //  Movies = new HashSet<Movie>();
         }
 
         // Fields
@@ -20,7 +20,5 @@ namespace Movies.Models.Domain
         public string Picture { get; set; }
 
         //relationships
-        public int? MovieId { get; set; }
-        public virtual ICollection<Movie> Movies { get; set; }
     }
 }
