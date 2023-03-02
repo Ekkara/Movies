@@ -12,9 +12,5 @@ namespace Movies.Models.DTO.Character
         public string Alias { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
-
-        //relationships
-        public int MovieId { get; set; }
-        public ICollection<int> Movies { get; set; }
     }
 }

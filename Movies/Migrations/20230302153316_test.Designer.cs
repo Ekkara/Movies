@@ -12,8 +12,8 @@ using Movies;
 namespace Movies.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20230228123713_initDb")]
-    partial class initDb
+    [Migration("20230302153316_test")]
+    partial class test
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,58 +24,6 @@ namespace Movies.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("CharacterMovie", b =>
-                {
-                    b.Property<int>("CharacterId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CharacterId", "MovieId");
-
-                    b.HasIndex("MovieId");
-
-                    b.ToTable("CharacterMovie");
-
-                    b.HasData(
-                        new
-                        {
-                            CharacterId = 1,
-                            MovieId = 1
-                        },
-                        new
-                        {
-                            CharacterId = 1,
-                            MovieId = 4
-                        },
-                        new
-                        {
-                            CharacterId = 2,
-                            MovieId = 2
-                        },
-                        new
-                        {
-                            CharacterId = 2,
-                            MovieId = 5
-                        },
-                        new
-                        {
-                            CharacterId = 3,
-                            MovieId = 3
-                        },
-                        new
-                        {
-                            CharacterId = 4,
-                            MovieId = 1
-                        },
-                        new
-                        {
-                            CharacterId = 4,
-                            MovieId = 4
-                        });
-                });
 
             modelBuilder.Entity("Movies.Models.Domain.Character", b =>
                 {
@@ -93,7 +41,7 @@ namespace Movies.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MovieId")
+                    b.Property<int?>("MovieId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -106,6 +54,8 @@ namespace Movies.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MovieId");
+
                     b.ToTable("Characters");
 
                     b.HasData(
@@ -114,7 +64,6 @@ namespace Movies.Migrations
                             Id = 1,
                             Alias = "George",
                             Gender = "Monki",
-                            MovieId = 1,
                             Name = "Fred",
                             Picture = ":)"
                         },
@@ -123,7 +72,6 @@ namespace Movies.Migrations
                             Id = 2,
                             Alias = "Shtark",
                             Gender = "Female",
-                            MovieId = 2,
                             Name = "Sean Stark",
                             Picture = "x("
                         },
@@ -132,7 +80,6 @@ namespace Movies.Migrations
                             Id = 3,
                             Alias = "Meme.gif",
                             Gender = "I have no damn clue",
-                            MovieId = 3,
                             Name = "YarYar",
                             Picture = "====)"
                         },
@@ -141,7 +88,6 @@ namespace Movies.Migrations
                             Id = 4,
                             Alias = "Fred",
                             Gender = "Monki",
-                            MovieId = 1,
                             Name = "George",
                             Picture = ":)"
                         });
@@ -159,16 +105,11 @@ namespace Movies.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FranchiseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FranchiseId");
 
                     b.ToTable("Franchises");
 
@@ -205,7 +146,7 @@ namespace Movies.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FranchiseID")
+                    b.Property<int?>("FranchiseID")
                         .HasColumnType("int");
 
                     b.Property<string>("Genre")
@@ -320,42 +261,30 @@ namespace Movies.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CharacterMovie", b =>
+            modelBuilder.Entity("Movies.Models.Domain.Character", b =>
                 {
-                    b.HasOne("Movies.Models.Domain.Character", null)
-                        .WithMany()
-                        .HasForeignKey("CharacterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Movies.Models.Domain.Movie", null)
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Movies.Models.Domain.Franchise", b =>
-                {
-                    b.HasOne("Movies.Models.Domain.Franchise", null)
-                        .WithMany("Franchises")
-                        .HasForeignKey("FranchiseId");
+                        .WithMany("Characters")
+                        .HasForeignKey("MovieId");
                 });
 
             modelBuilder.Entity("Movies.Models.Domain.Movie", b =>
                 {
                     b.HasOne("Movies.Models.Domain.Franchise", "Franchise")
-                        .WithMany()
-                        .HasForeignKey("FranchiseID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Movies")
+                        .HasForeignKey("FranchiseID");
 
                     b.Navigation("Franchise");
                 });
 
             modelBuilder.Entity("Movies.Models.Domain.Franchise", b =>
                 {
-                    b.Navigation("Franchises");
+                    b.Navigation("Movies");
+                });
+
+            modelBuilder.Entity("Movies.Models.Domain.Movie", b =>
+                {
+                    b.Navigation("Characters");
                 });
 #pragma warning restore 612, 618
         }

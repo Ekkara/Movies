@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Numerics;
 
 namespace Movies.Models.Domain
 {
-    public partial class Movie
+    public class Movie
     {
         public int Id { get; set; }
         public Movie()
@@ -21,7 +20,6 @@ namespace Movies.Models.Domain
 
         //relationships
         public int? FranchiseID { get; set; }
-        public virtual Franchise Franchise { get; set; } = null!;
         public ICollection<Character> Characters { get; set; }
     }
 }

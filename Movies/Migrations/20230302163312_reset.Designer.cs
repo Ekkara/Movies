@@ -12,8 +12,8 @@ using Movies;
 namespace Movies.Migrations
 {
     [DbContext(typeof(MovieDbContext))]
-    [Migration("20230301144909_afterRedoOurCharacter")]
-    partial class afterRedoOurCharacter
+    [Migration("20230302163312_reset")]
+    partial class reset
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,40 +57,6 @@ namespace Movies.Migrations
                     b.HasIndex("MovieId");
 
                     b.ToTable("Characters");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Alias = "George",
-                            Gender = "Monki",
-                            Name = "Fred",
-                            Picture = ":)"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Alias = "Shtark",
-                            Gender = "Female",
-                            Name = "Sean Stark",
-                            Picture = "x("
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Alias = "Meme.gif",
-                            Gender = "I have no damn clue",
-                            Name = "YarYar",
-                            Picture = "====)"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Alias = "Fred",
-                            Gender = "Monki",
-                            Name = "George",
-                            Picture = ":)"
-                        });
                 });
 
             modelBuilder.Entity("Movies.Models.Domain.Franchise", b =>
@@ -105,38 +71,13 @@ namespace Movies.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("FranchiseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FranchiseId");
-
                     b.ToTable("Franchises");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "They're still good despite scuffed author",
-                            Name = "Harry... Potter..."
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Actually best moovis",
-                            Name = "Sagan om ringen"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Oh. Oh dear...",
-                            Name = "Star Wars"
-                        });
                 });
 
             modelBuilder.Entity("Movies.Models.Domain.Movie", b =>
@@ -178,63 +119,6 @@ namespace Movies.Migrations
                     b.HasIndex("FranchiseID");
 
                     b.ToTable("Movies");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Director = "ChrisCol",
-                            FranchiseID = 1,
-                            Genre = "Fantasy",
-                            Picture = "Pic",
-                            ReleaseYear = 2001,
-                            Title = "Harry Potter",
-                            Trailer = "Ex-Smelly-Armpits"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Director = "Mikael Niazi",
-                            FranchiseID = 2,
-                            Genre = "Fantasy",
-                            Picture = "Pic",
-                            ReleaseYear = 2002,
-                            Title = "Lord of the Rings",
-                            Trailer = "ISENGARD"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Director = "Xyz",
-                            FranchiseID = 3,
-                            Genre = "SciFi",
-                            Picture = "Daddy",
-                            ReleaseYear = 1974,
-                            Title = "Star Wars",
-                            Trailer = "Pic"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Director = "ChrisCol",
-                            FranchiseID = 1,
-                            Genre = "Fantasy",
-                            Picture = "Pic",
-                            ReleaseYear = 2019,
-                            Title = "Harry Potter 2",
-                            Trailer = "Ex-Smelly-Armpits"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Director = "Mikael Niazi",
-                            FranchiseID = 2,
-                            Genre = "Fantasy",
-                            Picture = "presshush",
-                            ReleaseYear = 2069,
-                            Title = "Honungens Återkomst",
-                            Trailer = "ISENGARD"
-                        });
                 });
 
             modelBuilder.Entity("Movies.Models.Domain.Test2", b =>
@@ -256,14 +140,6 @@ namespace Movies.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Test2");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ASD = "ada",
-                            Name = "s"
-                        });
                 });
 
             modelBuilder.Entity("Movies.Models.Domain.Character", b =>
@@ -273,17 +149,10 @@ namespace Movies.Migrations
                         .HasForeignKey("MovieId");
                 });
 
-            modelBuilder.Entity("Movies.Models.Domain.Franchise", b =>
-                {
-                    b.HasOne("Movies.Models.Domain.Franchise", null)
-                        .WithMany("Franchises")
-                        .HasForeignKey("FranchiseId");
-                });
-
             modelBuilder.Entity("Movies.Models.Domain.Movie", b =>
                 {
                     b.HasOne("Movies.Models.Domain.Franchise", "Franchise")
-                        .WithMany()
+                        .WithMany("Movies")
                         .HasForeignKey("FranchiseID");
 
                     b.Navigation("Franchise");
@@ -291,7 +160,7 @@ namespace Movies.Migrations
 
             modelBuilder.Entity("Movies.Models.Domain.Franchise", b =>
                 {
-                    b.Navigation("Franchises");
+                    b.Navigation("Movies");
                 });
 
             modelBuilder.Entity("Movies.Models.Domain.Movie", b =>

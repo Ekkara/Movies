@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movies.Models.Domain
 {
@@ -8,7 +9,7 @@ namespace Movies.Models.Domain
 
         public Character()
         {
-          //  Movies = new HashSet<Movie>();
+            //  Movies = new HashSet<Movie>();
         }
 
         // Fields
@@ -18,7 +19,7 @@ namespace Movies.Models.Domain
         public string Alias { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
-
         //relationships
+        
     }
 }

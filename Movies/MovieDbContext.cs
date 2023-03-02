@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Movies.Models.Domain;
 using System.Diagnostics.CodeAnalysis;
+using System.Xml;
 
 namespace Movies
 {
@@ -17,17 +18,16 @@ namespace Movies
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Test2>().HasData(new Test2 { Id= 1 , Name = "s", ASD = "ada"});
-
+        {   
+            
             //Seed data
-            modelBuilder.Entity<Movie>().HasData(new Movie { Id = 1, Title = "Harry Potter", Genre = "Fantasy", ReleaseYear = 2001, Director = "ChrisCol", Picture = "Pic", Trailer = "Ex-Smelly-Armpits", FranchiseID = 1 });
+            /*modelBuilder.Entity<Movie>().HasData(new Movie { Id = 1, Title = "Harry Potter", Genre = "Fantasy", ReleaseYear = 2001, Director = "ChrisCol", Picture = "Pic", Trailer = "Ex-Smelly-Armpits", FranchiseID = 1 });
             modelBuilder.Entity<Movie>().HasData(new Movie { Id = 2, Title = "Lord of the Rings", Genre = "Fantasy", ReleaseYear = 2002, Director = "Mikael Niazi", Picture = "Pic", Trailer = "ISENGARD", FranchiseID = 2 });
             modelBuilder.Entity<Movie>().HasData(new Movie { Id = 3, Title = "Star Wars", Genre = "SciFi", ReleaseYear = 1974, Director = "Xyz", Picture = "Daddy", Trailer = "Pic", FranchiseID = 3 });
             modelBuilder.Entity<Movie>().HasData(new Movie { Id = 4, Title = "Harry Potter 2", Genre = "Fantasy", ReleaseYear = 2019, Director = "ChrisCol", Picture = "Pic", Trailer = "Ex-Smelly-Armpits", FranchiseID = 1 });
             modelBuilder.Entity<Movie>().HasData(new Movie { Id = 5, Title = "Honungens Återkomst", Genre = "Fantasy", ReleaseYear = 2069, Director = "Mikael Niazi", Picture = "presshush", Trailer = "ISENGARD", FranchiseID = 2 });
 
-            modelBuilder.Entity<Character>().HasData(new Character { Id = 1, Name = "Fred", Gender = "Monki", Alias = "George", Picture = ":)" });
+            modelBuilder.Entity<Character>().HasData(new Character { Id = 1, Name = "Fred", Gender = "Monki", Alias = "George", Picture = ":)"});
             modelBuilder.Entity<Character>().HasData(new Character { Id = 2, Name = "Sean Stark", Gender = "Female", Alias = "Shtark", Picture = "x(" });
             modelBuilder.Entity<Character>().HasData(new Character { Id = 3, Name = "YarYar", Gender = "I have no damn clue", Alias = "Meme.gif", Picture = "====)" });
             modelBuilder.Entity<Character>().HasData(new Character { Id = 4, Name = "George", Gender = "Monki", Alias = "Fred", Picture = ":)" });
@@ -35,7 +35,7 @@ namespace Movies
             modelBuilder.Entity<Franchise>().HasData(new Franchise { Id = 1, Name = "Harry... Potter...", Description = "They're still good despite scuffed author" });
             modelBuilder.Entity<Franchise>().HasData(new Franchise { Id = 2, Name = "Sagan om ringen", Description = "Actually best moovis" });
             modelBuilder.Entity<Franchise>().HasData(new Franchise { Id = 3, Name = "Star Wars", Description = "Oh. Oh dear..." });
-
+            */
 
             /*modelBuilder.Entity<Character>()
                 .HasMany(p => p.Movies)

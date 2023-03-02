@@ -10,6 +10,7 @@ namespace Movies.Profiles
         {
             CreateMap<Character, CharacterCreateDTO>()
                 .ReverseMap();
+
             CreateMap<Character, CharacterEditDTO>()
                 .ReverseMap();
         }

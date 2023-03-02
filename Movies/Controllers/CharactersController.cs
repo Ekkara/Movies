@@ -53,8 +53,6 @@ namespace Movies.Controllers
                 return BadRequest();
             }
 
-            //_context.Entry(characterEdit).State = EntityState.Modified;
-
             try
             {
                 await _characterService.UpdateAsync(
@@ -73,7 +71,6 @@ namespace Movies.Controllers
                     throw;
                 }
             }
-
             return NoContent();
         }
 
@@ -97,7 +94,6 @@ namespace Movies.Controllers
             {
                 return NotFound();
             }
-
             _context.Characters.Remove(character);
             await _context.SaveChangesAsync();
 

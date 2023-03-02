@@ -99,6 +99,19 @@ namespace Movies.Controllers
             return NoContent();
         }
 
+        [HttpGet("{movieId}/characterInMovie")]
+        public async Task<ActionResult<List<Character>>> GetCharactersInMovie(int movieId) {
+            //var characters = await _context.Characters.ToListAsync();
+            //characters = characters.Where(character => character.MovieID.Contains(movieId)).ToList();
+            //return characters;
+
+            var movie = await _context.Movies.FindAsync(movieId);
+            if (movie == null) {
+                return NotFound();
+            }
+            return movie.Characters.ToList();
+            }
+
         private bool MovieExists(int id) {
             return _context.Movies.Any(e => e.Id == id);
         }

@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using Movies.Models.Domain;
 using Movies.Models.DTO.Franchise;
 using Movies.Services;
+using System.Threading.Tasks.Dataflow;
 
 namespace Movies.Controllers
 {
@@ -15,8 +17,7 @@ namespace Movies.Controllers
         private readonly IMapper _mapper;
         private readonly IFranchiseService _franchiseService;
 
-        public FranchisesController(MovieDbContext context, IFranchiseService franchiseService, IMapper mapper)
-        {
+        public FranchisesController(MovieDbContext context, IFranchiseService franchiseService, IMapper mapper) {
             _context = context;
             _mapper = mapper;
             _franchiseService = franchiseService;
@@ -24,64 +25,106 @@ namespace Movies.Controllers
 
         // GET: api/Franchises
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Franchise>>> GetFranchises()
-        {
+        public async Task<ActionResult<IEnumerable<Franchise>>> GetFranchises() {
             return await _context.Franchises.ToListAsync();
         }
 
         // GET: api/Franchises/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Franchise>> GetFranchise(int id)
-        {
+        public async Task<ActionResult<Franchise>> GetFranchise(int id) {
             var franchise = await _context.Franchises.FindAsync(id);
 
-            if (franchise == null)
-            {
+            if (franchise == null) {
                 return NotFound();
             }
 
             return franchise;
         }
 
+        [HttpGet("{franchiseId}/moviesInFranchies")]
+        public async Task<ActionResult<List<Movie>>> GetMoviesInFranchise(int franchiseId) {
+            var movies = await _context.Movies.ToListAsync();
+            movies = movies.Where(movie => movie.FranchiseID == franchiseId).ToList();
+            return movies;
+        }
+
+        //[HttpGet("{movieId}/characterInMovie")]
+        //public async Task<ActionResult<List<Character>>> GetCharactersInMovie(int movieId) {
+        //    var characters = await _context.Characters.ToListAsync();
+        //    characters = characters.Where(character => character.MovieID.Contains(movieId)).ToList();
+        //    return characters;
+        //}
+
+        //[HttpGet("{franchiseId}/characterInFranchise")]
+        //public async Task<ActionResult<List<Character>>> GetCharactersInFranchise(int franchiseId) {
+        //    var movies = await _context.Movies.ToListAsync();
+        //    var characters = await _context.Characters.ToListAsync();
+
+        //    //   "SELECT TOP 1 PERCENT WITH TIES e.Name " +
+        //    //"FROM Invoice " +
+        //    //"JOIN (" +
+        //    //"    SELECT CustomerId " +
+        //    //"    FROM Customer " +
+        //    //$"    WHERE CustomerId = {customerId} " +
+        //    //") AS a ON Invoice.CustomerId = a.CustomerId " +
+        //    //"JOIN InvoiceLine AS b ON Invoice.InvoiceId = b.InvoiceId " +
+        //    //"JOIN Track AS c ON b.TrackId = c.TrackId " +
+        //    //"JOIN Genre AS e ON c.GenreId = e.GenreId " +
+        //    //"GROUP BY e.GenreId, e.Name " +
+        //    //"ORDER BY COUNT(e.Name) DESC";
+
+
+
+
+        //    movies = movies.Where(movie => movie.FranchiseID == franchiseId).ToList();
+        //    List<int> movieIds = new List<int>();
+        //    for (int i = 0; i < movies.Count; i++) {
+        //        if (movies[i].FranchiseID == franchiseId) movieIds.Add(i);
+        //    }
+
+
+        //    List<Character> rChar = new List<Character>();
+        //    for (int i = 0; i < movieIds.Count; i++) {
+        //        var cara = characters.Where(character => 
+        //            character.MovieId.Contains(
+        //                movies[movieIds[i]].Id)).ToList();
+        //        for (int j = 0; j < cara.Count; j++) {
+        //            rChar.Add(cara[j]);
+        //        }
+        //    }
+        //    return rChar;
+        //}
+
+
+        //public async Task<ActionResult<ICollection<Movie>> GetMoviesInFranchise(int id)
+
         // PUT: api/Franchises/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFranchise(int id, FranchiseEditDTO franchiseEdit)
-        {
-            if (id != franchiseEdit.Id)
-            {
+        public async Task<IActionResult> PutFranchise(int id, FranchiseEditDTO franchiseEdit) {
+            if (id != franchiseEdit.Id) {
                 return BadRequest();
             }
-
-            //_context.Entry(franchiseEdit).State = EntityState.Modified;
-
-            try
-            {
+            try {
                 await _franchiseService.UpdateAsync(
                     _mapper.Map<Franchise>(franchiseEdit)
                 );
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FranchiseExists(id))
-                {
+            } catch (DbUpdateConcurrencyException) {
+                if (!FranchiseExists(id)) {
                     return NotFound();
                 }
-                else
-                {
+                else {
                     throw;
                 }
             }
-
             return NoContent();
         }
 
         // POST: api/Franchises
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Franchise>> PostFranchise(FranchiseCreateDTO franchiseDTO)
-        {
+        public async Task<ActionResult<Franchise>> PostFranchise(FranchiseCreateDTO franchiseDTO) {
             Franchise franchise = _mapper.Map<Franchise>(franchiseDTO);
             _context.Franchises.Add(franchise);
             await _franchiseService.AddAsync(franchise);
@@ -90,11 +133,9 @@ namespace Movies.Controllers
 
         // DELETE: api/Franchises/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFranchise(int id)
-        {
+        public async Task<IActionResult> DeleteFranchise(int id) {
             var franchise = await _context.Franchises.FindAsync(id);
-            if (franchise == null)
-            {
+            if (franchise == null) {
                 return NotFound();
             }
 
@@ -132,8 +173,7 @@ namespace Movies.Controllers
             return NoContent();
         }
 
-        private bool FranchiseExists(int id)
-        {
+        private bool FranchiseExists(int id) {
             return _context.Franchises.Any(e => e.Id == id);
         }
     }
