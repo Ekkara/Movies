@@ -104,7 +104,7 @@ namespace Movies.Controllers
             if (movie == null) {
                 return NotFound();
             }
-            Console.WriteLine(movie.Characters.Count);
+
             return Ok(_mapper.Map<List<CharacterReadDTO>>(movie.Characters.ToList()));    
         }
 

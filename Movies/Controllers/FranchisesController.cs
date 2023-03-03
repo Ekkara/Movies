@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using Movies.Models.Domain;
+using Movies.Models.DTO.Character;
 using Movies.Models.DTO.Franchise;
 using Movies.Services;
 using System.Threading.Tasks.Dataflow;
@@ -43,29 +44,38 @@ namespace Movies.Controllers
 
         [HttpGet("{franchiseId}/moviesInFranchies")]
         public async Task<ActionResult<List<Movie>>> GetMoviesInFranchise(int franchiseId) {
+            if(!FranchiseExists(franchiseId)) {
+                return NotFound();
+            }
+
             var movies = await _context.Movies.ToListAsync();
-            Console.WriteLine("sdasdadasdafkangjakfngöoasfnfgjagnajsganjgnäagnjadg");
-            Console.WriteLine(movies.Count);
-            Console.WriteLine(movies[0].FranchiseID);
             movies = movies.Where(movie => movie.FranchiseID == franchiseId).ToList();
-            Console.WriteLine(movies.Count);
+            if (movies.Count <= 0) {
+                return NotFound();
+            }
             return movies;
         }
 
         [HttpGet("{franchiseId}/characterInFranchise")]
-        public async Task<ActionResult<List<Character>>> GetCharactersInFranchise(int franchiseId) {
+        public async Task<ActionResult<List<CharacterReadDTO>>> GetCharactersInFranchise(int franchiseId) {
             if (!FranchiseExists(franchiseId)) {
                 return NotFound();
             }
-            var movies = await _context.Movies.ToListAsync();
-            movies = movies.Where(movie => movie.FranchiseID == franchiseId).ToList();
-            var characters = await _context.Characters.ToListAsync();
-            
-            characters = characters.Where(character => 
-                movies.Any(movie => movie.Characters.Contains(character))).ToList();
-            
-            return characters;
+
+            var movies = await _context.Movies.Include(x => x.Characters).ToListAsync();
+            movies = movies.Where(x => x.FranchiseID == franchiseId).ToList();
+
+            var result = movies.SelectMany(movie => movie.Characters)
+                   .GroupBy(character => character.Id)
+                   .Select(group => group.First()).ToList();
+
+            if (movies.Count <= 0) {
+                return NotFound();
+            }            
+
+            return Ok(_mapper.Map<List<CharacterReadDTO>>(result.ToList()));
         }
+
 
         // PUT: api/Franchises/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
