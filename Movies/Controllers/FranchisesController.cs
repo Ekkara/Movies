@@ -52,55 +52,20 @@ namespace Movies.Controllers
             return movies;
         }
 
-        //[HttpGet("{movieId}/characterInMovie")]
-        //public async Task<ActionResult<List<Character>>> GetCharactersInMovie(int movieId) {
-        //    var characters = await _context.Characters.ToListAsync();
-        //    characters = characters.Where(character => character.MovieID.Contains(movieId)).ToList();
-        //    return characters;
-        //}
-
-        //[HttpGet("{franchiseId}/characterInFranchise")]
-        //public async Task<ActionResult<List<Character>>> GetCharactersInFranchise(int franchiseId) {
-        //    var movies = await _context.Movies.ToListAsync();
-        //    var characters = await _context.Characters.ToListAsync();
-
-        //    //   "SELECT TOP 1 PERCENT WITH TIES e.Name " +
-        //    //"FROM Invoice " +
-        //    //"JOIN (" +
-        //    //"    SELECT CustomerId " +
-        //    //"    FROM Customer " +
-        //    //$"    WHERE CustomerId = {customerId} " +
-        //    //") AS a ON Invoice.CustomerId = a.CustomerId " +
-        //    //"JOIN InvoiceLine AS b ON Invoice.InvoiceId = b.InvoiceId " +
-        //    //"JOIN Track AS c ON b.TrackId = c.TrackId " +
-        //    //"JOIN Genre AS e ON c.GenreId = e.GenreId " +
-        //    //"GROUP BY e.GenreId, e.Name " +
-        //    //"ORDER BY COUNT(e.Name) DESC";
-
-
-
-
-        //    movies = movies.Where(movie => movie.FranchiseID == franchiseId).ToList();
-        //    List<int> movieIds = new List<int>();
-        //    for (int i = 0; i < movies.Count; i++) {
-        //        if (movies[i].FranchiseID == franchiseId) movieIds.Add(i);
-        //    }
-
-
-        //    List<Character> rChar = new List<Character>();
-        //    for (int i = 0; i < movieIds.Count; i++) {
-        //        var cara = characters.Where(character => 
-        //            character.MovieId.Contains(
-        //                movies[movieIds[i]].Id)).ToList();
-        //        for (int j = 0; j < cara.Count; j++) {
-        //            rChar.Add(cara[j]);
-        //        }
-        //    }
-        //    return rChar;
-        //}
-
-
-        //public async Task<ActionResult<ICollection<Movie>> GetMoviesInFranchise(int id)
+        [HttpGet("{franchiseId}/characterInFranchise")]
+        public async Task<ActionResult<List<Character>>> GetCharactersInFranchise(int franchiseId) {
+            if (!FranchiseExists(franchiseId)) {
+                return NotFound();
+            }
+            var movies = await _context.Movies.ToListAsync();
+            movies = movies.Where(movie => movie.FranchiseID == franchiseId).ToList();
+            var characters = await _context.Characters.ToListAsync();
+            
+            characters = characters.Where(character => 
+                movies.Any(movie => movie.Characters.Contains(character))).ToList();
+            
+            return characters;
+        }
 
         // PUT: api/Franchises/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -161,21 +126,6 @@ namespace Movies.Controllers
             for(int i = 0; i < movies.Count; i++) {
                 movies[i].FranchiseID = franchise.Id;
             }
-
-            //Franchise FranchiseToUpdateMovies = await _context.Franchises
-            //    .Include(c => c.Movies)
-            //    .Where(c => c.Id == id)
-            //    .FirstAsync();
-
-            //List<Movie> movies = new();
-            //foreach (int movieId in listOfMovies) {
-            //    Movie character = await _context.Movies.FindAsync(movieId);
-            //    if (character == null)
-            //        return BadRequest("Character doesnt exist!");
-            //    movies.Add(character);
-            //}
-            //FranchiseToUpdateMovies.Movies = movies;
-
             try {
                 await _context.SaveChangesAsync();
             } catch (DbUpdateConcurrencyException) {
