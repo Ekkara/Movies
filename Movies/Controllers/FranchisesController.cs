@@ -44,7 +44,11 @@ namespace Movies.Controllers
         [HttpGet("{franchiseId}/moviesInFranchies")]
         public async Task<ActionResult<List<Movie>>> GetMoviesInFranchise(int franchiseId) {
             var movies = await _context.Movies.ToListAsync();
+            Console.WriteLine("sdasdadasdafkangjakfngöoasfnfgjagnajsganjgnäagnjadg");
+            Console.WriteLine(movies.Count);
+            Console.WriteLine(movies[0].FranchiseID);
             movies = movies.Where(movie => movie.FranchiseID == franchiseId).ToList();
+            Console.WriteLine(movies.Count);
             return movies;
         }
 
@@ -147,9 +151,16 @@ namespace Movies.Controllers
         [HttpPut("{id}/movies")]
         public async Task<IActionResult> UpdateMoviesInFranchise(int id, List<int> listOfMovies) {
             //check if character exist
-            //if (!FranchiseExists(id)) {
-            //    return NotFound();
-            //}
+            Franchise franchise = await _context.Franchises.FindAsync(id);
+            if (franchise == null) {
+                return NotFound();
+            }
+
+            var movies = await _context.Movies.ToListAsync();
+            movies = movies.Where(movie => listOfMovies.Contains(movie.Id)).ToList();
+            for(int i = 0; i < movies.Count; i++) {
+                movies[i].FranchiseID = franchise.Id;
+            }
 
             //Franchise FranchiseToUpdateMovies = await _context.Franchises
             //    .Include(c => c.Movies)
@@ -165,11 +176,11 @@ namespace Movies.Controllers
             //}
             //FranchiseToUpdateMovies.Movies = movies;
 
-            //try {
-            //    await _context.SaveChangesAsync();
-            //} catch (DbUpdateConcurrencyException) {
-            //    throw;
-            //}
+            try {
+                await _context.SaveChangesAsync();
+            } catch (DbUpdateConcurrencyException) {
+                throw;
+            }
             return NoContent();
         }
 
