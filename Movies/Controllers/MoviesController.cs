@@ -23,6 +23,10 @@ namespace Movies.Controllers
             _movieService = movieService;
         }
 
+        /// <summary>
+        /// Get movie information
+        /// </summary>
+        /// <returns>Movies</returns>
         // GET: api/Movies
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> GetMovies() {           
@@ -30,6 +34,11 @@ namespace Movies.Controllers
             return await _context.Movies.ToListAsync();
         }
 
+        /// <summary>
+        /// Get a certain movie by ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A certain movie</returns>
         // GET: api/Movies/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Movie>> GetMovie(int id) {
@@ -47,6 +56,12 @@ namespace Movies.Controllers
             return movie;
         }
 
+        /// <summary>
+        /// Edit movie information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="movieEdit"></param>
+        /// <returns>Edited movie details</returns>
         // PUT: api/Movies/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -74,6 +89,11 @@ namespace Movies.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Create a new movie
+        /// </summary>
+        /// <param name="movieDTO"></param>
+        /// <returns>Newly created movie</returns>
         // POST: api/Movies
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -84,6 +104,11 @@ namespace Movies.Controllers
             return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
         }
 
+        /// <summary>
+        /// Delete a given movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>The nothingness left behind</returns>
         // DELETE: api/Movies/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(int id) {
@@ -98,6 +123,11 @@ namespace Movies.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Get characters in a specific movie
+        /// </summary>
+        /// <param name="movieId"></param>
+        /// <returns>Characters in a given movie</returns>
         [HttpGet("{movieId}/characterInMovie")]
         public async Task<ActionResult<List<CharacterReadDTO>>> GetCharactersInMovie(int movieId) {
             var movie = await _context.Movies.Include(x => x.Characters).FirstOrDefaultAsync(x => x.Id == movieId);
@@ -112,6 +142,12 @@ namespace Movies.Controllers
             return _context.Movies.Any(e => e.Id == id);
         }
 
+        /// <summary>
+        /// Update characters appearing in a movie
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="listOfCharactersId"></param>
+        /// <returns>New character information</returns>
         [HttpPut("{id}/characters")]
         public async Task<IActionResult> UpdateCharactersInMovie(int id, List<int> listOfCharactersId) {
             //check if character exist

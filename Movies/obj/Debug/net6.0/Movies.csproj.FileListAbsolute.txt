@@ -289,3 +289,5 @@ C:\Users\EGus01\Documents\GitHub\Movies\Movies\bin\Debug\net6.0\runtimes\win\lib
 C:\Users\EGus01\Documents\GitHub\Movies\Movies\bin\Debug\net6.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\EGus01\Documents\GitHub\Movies\Movies\bin\Debug\net6.0\AutoMapper.dll
 C:\Users\EGus01\Documents\GitHub\Movies\Movies\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\EGus01\Documents\GitHub\Movies\Movies\bin\Debug\net6.0\Movies.xml
+C:\Users\EGus01\Documents\GitHub\Movies\Movies\obj\Debug\net6.0\Movies.xml

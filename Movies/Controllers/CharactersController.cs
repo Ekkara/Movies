@@ -4,10 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Movies.Models.Domain;
 using Movies.Models.DTO.Character;
 using Movies.Services;
+using System.Net.Mime;
 
 namespace Movies.Controllers
 {
     [Route("api/[controller]")]
+    [ApiConventionType(typeof(DefaultApiConventions))]
+    [Produces(MediaTypeNames.Application.Json)]
+    [Consumes(MediaTypeNames.Application.Json)]
     [ApiController]
     public class CharactersController : ControllerBase
     {
@@ -22,13 +26,21 @@ namespace Movies.Controllers
             _characterService = characterService;
         }
 
-        // GET: api/Characters
+        /// <summary>
+        /// Gets all character resources
+        /// </summary>
+        /// <returns>List of characters</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Character>>> GetCharacters()
         {
             return await _context.Characters.ToListAsync();
         }
 
+        /// <summary>
+        /// Get character with a specific ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A given character</returns>
         // GET: api/Characters/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Character>> GetCharacter(int id)
@@ -45,6 +57,12 @@ namespace Movies.Controllers
 
         // PUT: api/Characters/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Edit character information
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="characterEdit"></param>
+        /// <returns>New character data</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCharacter(int id, CharacterEditDTO characterEdit)
         {
@@ -74,6 +92,11 @@ namespace Movies.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Create a new character
+        /// </summary>
+        /// <param name="characterDTO"></param>
+        /// <returns>Created character</returns>
         // POST: api/Characters
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
@@ -85,6 +108,11 @@ namespace Movies.Controllers
             return CreatedAtAction("GetCharacter", new { id = character.Id }, character);
         }
 
+        /// <summary>
+        /// Delete a certain character
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Nothingness left behind</returns>
         // DELETE: api/Characters/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCharacter(int id)
