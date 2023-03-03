@@ -113,6 +113,7 @@ namespace Movies.Controllers
 
             return NoContent();
         }
+
         [HttpPut("{id}/movies")]
         public async Task<IActionResult> UpdateMoviesInFranchise(int id, List<int> listOfMovies) {
             //check if character exist

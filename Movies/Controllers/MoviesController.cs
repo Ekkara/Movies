@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Movies.Models.Domain;
+using Movies.Models.DTO.Character;
 using Movies.Models.DTO.Movie;
 using Movies.Services;
+using System.ComponentModel;
 
 namespace Movies.Controllers
 {
@@ -97,20 +99,14 @@ namespace Movies.Controllers
         }
 
         [HttpGet("{movieId}/characterInMovie")]
-        public async Task<ActionResult<List<Character>>> GetCharactersInMovie(int movieId) {
-            //var characters = await _context.Characters.ToListAsync();
-            //characters = characters.Where(character => character.MovieID.Contains(movieId)).ToList();
-            //return characters;
-
-            var movie = await _context.Movies.FindAsync(movieId);
+        public async Task<ActionResult<List<CharacterReadDTO>>> GetCharactersInMovie(int movieId) {
+            var movie = await _context.Movies.Include(x => x.Characters).FirstOrDefaultAsync(x => x.Id == movieId);
             if (movie == null) {
                 return NotFound();
             }
-
-            var characters = await _context.Characters.ToListAsync();
-            characters = characters.Where(c => movie.Characters.Contains(c)).ToList();
-            return characters;
-            }
+            Console.WriteLine(movie.Characters.Count);
+            return Ok(_mapper.Map<List<CharacterReadDTO>>(movie.Characters.ToList()));    
+        }
 
         private bool MovieExists(int id) {
             return _context.Movies.Any(e => e.Id == id);
@@ -127,25 +123,16 @@ namespace Movies.Controllers
             var characters = await _context.Characters.ToListAsync();
             characters = characters.Where(c => listOfCharactersId.Contains(c.Id)).ToList();
 
+            Console.WriteLine(characters.Count);
+
             movie.Characters = characters;
 
-
-            //Movie movieToUpdateCerts = await _context.Movies
-            //    .Include(c => c.Characters)
-            //    .Where(c => c.Id == id)
-            //    .FirstAsync();
-
-            //List<Character> characters = new();
-            //foreach (int characterId in listOfCharactersId) {
-            //    Character character = await _context.Characters.FindAsync(characterId);
-            //    if (character == null)
-            //        return BadRequest("Character doesnt exist!");
-            //    characters.Add(character);
-            //}
-            //movieToUpdateCerts.Characters = characters;
+            Console.WriteLine(movie.Characters.Count);
             
             try {
                 await _context.SaveChangesAsync();
+                movie = await _context.Movies.FindAsync(id);
+                Console.WriteLine(movie.Characters.Count);
             } catch (DbUpdateConcurrencyException) {
                 throw;
             } 

@@ -13,7 +13,5 @@ namespace Movies.Models.DTO.Movie
         public string Director { get; set; }
         public string Picture { get; set; }
         public string Trailer { get; set; }
-
-        public ICollection<Domain.Character> Characters { get; set; }
     }
 }

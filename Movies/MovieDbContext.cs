@@ -9,17 +9,15 @@ namespace Movies
     {
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Character> Characters { get; set; }
-        public DbSet<Franchise> Franchises { get;set; }
+        public DbSet<Franchise> Franchises { get; set; }
         public DbSet<Test2> Test2 { get; set; }
 
-        public MovieDbContext(DbContextOptions options) : base(options)
-        {
+        public MovieDbContext(DbContextOptions options) : base(options) {
 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {   
-            
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+
             //Seed data
             /*modelBuilder.Entity<Movie>().HasData(new Movie { Id = 1, Title = "Harry Potter", Genre = "Fantasy", ReleaseYear = 2001, Director = "ChrisCol", Picture = "Pic", Trailer = "Ex-Smelly-Armpits", FranchiseID = 1 });
             modelBuilder.Entity<Movie>().HasData(new Movie { Id = 2, Title = "Lord of the Rings", Genre = "Fantasy", ReleaseYear = 2002, Director = "Mikael Niazi", Picture = "Pic", Trailer = "ISENGARD", FranchiseID = 2 });
@@ -58,6 +56,16 @@ namespace Movies
                             );
                     });*/
 
+            modelBuilder.Entity<Character>()
+                .HasMany<Movie>(character => character.Movies)
+                .WithMany(movie => movie.Characters)
+                .UsingEntity<Dictionary<string, object>>(
+                    "CharacterMovie",
+                    r => r.HasOne<Movie>().WithMany().HasForeignKey("MovieId"),
+                    l => l.HasOne<Character>().WithMany().HasForeignKey("CharacterId"),
+                    je => {
+                        je.HasKey("CharacterId", "MovieId");
+                    });
         }
     }
 }

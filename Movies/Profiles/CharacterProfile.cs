@@ -13,6 +13,9 @@ namespace Movies.Profiles
 
             CreateMap<Character, CharacterEditDTO>()
                 .ReverseMap();
+
+            CreateMap<Character, CharacterReadDTO>()
+                .ReverseMap();
         }
     }
 }

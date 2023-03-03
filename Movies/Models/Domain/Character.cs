@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Movies.Models.Domain
 {
-    public partial class Character
+    public class Character
     {
         public int Id { get; set; }
 
@@ -14,5 +14,7 @@ namespace Movies.Models.Domain
         public string Alias { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }
+
+        public ICollection<Movie> Movies { get; set; } = new List<Movie>();
     }
 }
