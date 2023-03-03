@@ -2,6 +2,7 @@
 
 namespace Movies.Models.DTO.Movie
 {
+    //TODO: use this to display information about movie
     public class MovieReadDTO
     {
         public int Id { get; set; }
@@ -14,9 +15,6 @@ namespace Movies.Models.DTO.Movie
         public string Director { get; set; }
         public string Picture { get; set; }
         public string Trailer { get; set; }
-
-        //relationships
         public int Franchise { get; set; }
-        public ICollection<int> Characters { get; set; }
     }
 }

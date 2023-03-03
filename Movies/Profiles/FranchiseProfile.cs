@@ -6,6 +6,7 @@ namespace Movies.Profiles
 {
     public class FranchiseProfile : Profile
     {
+        //automap all franchise to their DTO
         public FranchiseProfile()
         {
             CreateMap<Franchise, FranchiseCreateDTO>()

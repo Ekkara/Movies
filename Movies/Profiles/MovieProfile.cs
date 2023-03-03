@@ -6,6 +6,8 @@ namespace Movies.Profiles
 {
     public class MovieProfile : Profile
     {
+
+        //automap all movie to their DTO
         public MovieProfile() {
             CreateMap<Movie, MovieCreateDTO>()
                 .ReverseMap();

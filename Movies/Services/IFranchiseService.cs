@@ -2,9 +2,8 @@
 
 namespace Movies.Services
 {
-    public interface IFranchiseService
+    public interface IFranchiseService : ICRUD<Franchise>
     {
-        Task<Franchise> AddAsync(Franchise franchise);
-        Task UpdateAsync(Franchise franchise);
+
     }
 }

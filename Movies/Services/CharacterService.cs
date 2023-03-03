@@ -7,39 +7,39 @@ namespace Movies.Services
     {
         private readonly MovieDbContext _context;
         private readonly ILogger<CharacterService> _logger;
-        public CharacterService(MovieDbContext context, ILogger<CharacterService> logger)
-        {
+        public CharacterService(MovieDbContext context, ILogger<CharacterService> logger) {
             _context = context;
             _logger = logger;
         }
 
-        public async Task<Character> AddAsync(Character character)
-        {
+        //making sure we add character asynchronously 
+        public async Task<Character> AddAsync(Character character) {
             _context.Characters.Add(character);
             await _context.SaveChangesAsync();
             return character;
         }
-        public async Task UpdateAsync(Character entity)
-        {
+
+        //update a character asynchronously
+        public async Task UpdateAsync(Character entity) {
             // Log and throw pattern
-            if (!await CharacterExistsAsync(entity.Id))
-            {
+            if (!await CharacterExistsAsync(entity.Id)) {
                 _logger.LogError("Character not found with Id: " + entity.Id);
                 throw new Exception("Character not found with Id: " + entity.Id);
             }
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
-        private async Task<bool> CharacterExistsAsync(int id)
-        {
+
+        //check if a character exist asynchronously
+        private async Task<bool> CharacterExistsAsync(int id) {
             return await _context.Characters.AnyAsync(e => e.Id == id);
         }
-        public async Task DeleteByIdAsync(int id)
-        {
+
+        //delete character asynchronously
+        public async Task DeleteByIdAsync(int id) {
             var character = await _context.Characters.FindAsync(id);
             // Log and throw pattern
-            if (character == null)
-            {
+            if (character == null) {
                 _logger.LogError("Character not found with Id: " + id);
                 throw new Exception();
             }

@@ -2,9 +2,8 @@
 
 namespace Movies.Services
 {
-    public interface ICharacterService
+    public interface ICharacterService : ICRUD<Character>
     {
-        Task<Character> AddAsync(Character character);
-        Task UpdateAsync(Character character);
+
     }
 }

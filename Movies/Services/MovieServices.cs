@@ -13,12 +13,15 @@ namespace Movies.Services
             _logger = logger;
         }
 
+        //making sure we are adding movies asynchronously
         public async Task<Movie> AddAsync(Movie movie)
         {
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
             return movie;
         }
+
+        //updating movies
         public async Task UpdateAsync(Movie entity)
         {
             // Log and throw pattern
@@ -30,10 +33,14 @@ namespace Movies.Services
             _context.Entry(entity).State = EntityState.Modified;
             await _context.SaveChangesAsync();
         }
+
+        //a check to see if movies exist or not
         private async Task<bool> MovieExistsAsync(int id)
         {
             return await _context.Movies.AnyAsync(e => e.Id == id);
         }
+
+        //deyeet movies we do not want to archaeologists of the future to see
         public async Task DeleteByIdAsync(int id)
         {
             var movie = await _context.Movies.FindAsync(id);

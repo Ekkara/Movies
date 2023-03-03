@@ -6,6 +6,7 @@ namespace Movies.Profiles
 {
     public class CharacterProfile : Profile
     {
+        //automap all character to their DTO  
         public CharacterProfile()
         {
             CreateMap<Character, CharacterCreateDTO>()

@@ -10,12 +10,12 @@ namespace Movies
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Character> Characters { get; set; }
         public DbSet<Franchise> Franchises { get; set; }
-        public DbSet<Test2> Test2 { get; set; }
 
         public MovieDbContext(DbContextOptions options) : base(options) {
 
         }
 
+        //setting up seeding. example values to start using the web app with
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
 
             //Seed data

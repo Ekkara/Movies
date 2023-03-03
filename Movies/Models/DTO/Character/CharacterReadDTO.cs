@@ -9,7 +9,6 @@ namespace Movies.Models.DTO.Character
         // Fields
         [Required]
         public string Name { get; set; }
-        //TODO: alias might not be applicable
         public string Alias { get; set; }
         public string Gender { get; set; }
         public string Picture { get; set; }

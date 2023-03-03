@@ -2,6 +2,7 @@
 
 namespace Movies.Models.DTO.Franchise
 {
+    //TODO: use this to display information regarding a franchise
     public class FranchiseRead
     {
         public int Id { get; set; }

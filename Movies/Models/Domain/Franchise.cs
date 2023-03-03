@@ -2,7 +2,7 @@
 
 namespace Movies.Models.Domain
 {
-    public partial class Franchise
+    public class Franchise
     {
         public int Id { get; set; }
 

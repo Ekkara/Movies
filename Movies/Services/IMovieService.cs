@@ -2,9 +2,8 @@
 
 namespace Movies.Services
 {
-    public interface IMovieService
+    public interface IMovieService : ICRUD<Movie>
     {
-        Task<Movie> AddAsync(Movie movie);
-        Task UpdateAsync(Movie movie);
+
     }
 }
